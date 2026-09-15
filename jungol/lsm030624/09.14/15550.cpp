@@ -8,7 +8,6 @@ int main() {
 
     int N;
     cin >> N;
-
     while (N--) {
         int n, m;
         int time = 0;
