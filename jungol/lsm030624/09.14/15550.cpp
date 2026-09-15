@@ -20,6 +20,7 @@ int main() {
 
         string s;
         getline(cin, s);
+        
         stringstream ss(s);
 
         int i;
