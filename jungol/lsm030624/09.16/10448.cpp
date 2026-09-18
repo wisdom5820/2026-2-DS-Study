@@ -25,7 +25,6 @@ int main() {
             cin >> s;
             for (const char& c : s){
                 temp = temp + to_string(m[c]);
-                //cout << "temp = "<< temp << endl;
             }
             str.insert(temp);
         }
@@ -35,7 +34,5 @@ int main() {
         else{
             cout << "Case #"<< j <<": NO\n";
         }
-
     }
 }
-
