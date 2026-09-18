@@ -15,7 +15,6 @@ int main() {
             break;
         }
         stringstream ss(str);
-        //vector<int> v;
         int iter = 0;
         while (ss >> st) {
             int temp;
