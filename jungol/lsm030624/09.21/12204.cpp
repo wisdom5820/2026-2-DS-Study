@@ -13,13 +13,11 @@ int main() {
     vector<int> pos(N + 1);
     for (int i = 1; i <= N; i++) {
         cin >> A[i];
-        pos[A[i]] = i; // 물건 번호 x의 출고 순서 인덱스
+        pos[A[i]] = i; 
     }
 
-    // 각 물건이 들어갈 큐 번호 (1 또는 2, 0은 미정)
     vector<int> lane(N + 1, 0);
 
-    // 각 큐에 들어간 마지막 물건의 pos 값 기록
     int last_pos1 = 0, last_pos2 = 0;
     bool possible = true;
 
