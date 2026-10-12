@@ -59,16 +59,6 @@ bool recur(const string& func_name) {
     return false;
 } // end of recur()
 
-bool deadlock() {
-    bool result = recur(START);
-
-    for (auto& [name, range] : Func_range)
-        Func_list[name].pop_back();
-
-    if (result) cout << "DEADLOCK\n";
-    return result;
-} // end of deadlock()
-
 Dlong compute(const string& func_name) {
     if (Computed[func_name])
         return Func_range[func_name];
@@ -88,6 +78,15 @@ Dlong compute(const string& func_name) {
     return Func_range[func_name] = max_index = length;
 } // end of compute()
 
+bool deadlock() {
+    bool result = recur(START);
+
+    for (auto& [name, range] : Func_range)
+        Func_list[name].pop_back();
+
+    if (result) cout << "DEADLOCK\n";
+    return result;
+} // end of deadlock()
 
 string find_statement(Dlong prev_index, Dlong find_index, const string& func_name) {
     for (const string& s : Func_list[func_name]) {
