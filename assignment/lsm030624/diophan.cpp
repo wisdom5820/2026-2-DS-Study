@@ -19,12 +19,34 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-
-const int MOD = 19991;
+#define MOD 19991;
 
 int N, R;
 vector<int> coef;
 vector<vector<int>> memo;
+
+void input(){
+    cin >> N;
+    coef.resize(N);
+
+    for (int& c : coef)
+        cin >> c;
+
+    cin >> R;
+
+    // 각 변수를 최소 한 번씩 사용하는 경우 가정 (음이 아닌 정수)
+    for (int c : coef)
+        R -= c;
+
+    if (R < 0) {
+        cout << 0;
+        exit(0);
+    }
+
+    sort(coef.begin(), coef.end(), greater<int>());
+
+    memo.assign(N, vector<int>(R + 1, -1));
+} // end of input()
 
 int recur(int index, int rem) {
     if (rem == 0) // 정확히 떨어질 때
@@ -48,30 +70,12 @@ int recur(int index, int rem) {
     return result;
 } // end of recur()
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    cin >> N;
-    coef.resize(N);
-
-    for (int& c : coef)
-        cin >> c;
-
-    cin >> R;
-
-    // 각 변수를 최소 한 번씩 사용하는 경우 가정 (음이 아닌 정수)
-    for (int c : coef)
-        R -= c;
-
-    if (R < 0) {
-        cout << 0;
-        return 0;
-    }
-
-    sort(coef.begin(), coef.end(), greater<int>());
-
-    memo.assign(N, vector<int>(R + 1, -1));
-
+void output(){
     cout << recur(0, R);
+} // end of output()
+
+int main() {
+    input();
+    recur(0, R);
+    output();
 } // end of main()
