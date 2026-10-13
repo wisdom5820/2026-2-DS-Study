@@ -14,4 +14,8 @@ int main(){
     if(equal(a,a+4,b)) cout<<"equal!";
     else               cout<<"Not equal!";
 
+    /*
+    같은 컨테이너를 대상으로 하더라도 어떤 값을 src로 잡고 어떤값을 dest로 잡냐에 따라 결과가 바뀔 수 있다.
+    reference:Generic_algo - equal(  ).cpp
+    */
 }
