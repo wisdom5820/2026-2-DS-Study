@@ -2,99 +2,39 @@
 
 using namespace std;
 
+#define N_array 100000000
+#define M 10000 
+#define compute_time do{sec=myend-mybegin; t_sec=sec.count(); cout<<t_sec<<'\n';}while(0);
 
-
-#define N_loop 100000000
-#define Br cout<<'\n';
-
-void test1(){
-    chrono::system_clock::time_point mybegin, myend;
-    chrono::duration<double, milli> sec;
+int main(){ 
     double t_sec;
-
-    int a;
-
-    mybegin=chrono::system_clock::now();
-    for(int64_t i=0; i<N_loop; ++i)
-        a=(i<<3)+i;
-    myend=chrono::system_clock::now();
-    sec=myend-mybegin;
-    t_sec=sec.count();
-
-    cout<<t_sec;
-    Br
-
-    mybegin=chrono::system_clock::now();
-    for(int64_t i=0; i<N_loop; ++i)
-        a=9*i;
-    myend=chrono::system_clock::now();
-    sec=myend-mybegin;
-    t_sec=sec.count();
-
-    cout<<t_sec;
-    Br
-
-    mybegin=chrono::system_clock::now();
-    for(int64_t i=0; i<N_loop; ++i)
-        a=i+i+i+i+i+i+i+i+i;
-    myend=chrono::system_clock::now();
-    sec=myend-mybegin;
-    t_sec=sec.count();
-
-    cout<<t_sec;
-    Br
-}
-
-void test2(){
-    chrono::system_clock::time_point mybegin, myend;
     chrono::duration<double, milli> sec;
-    double t_sec;
+    chrono::system_clock::time_point mybegin, myend;
 
-    int a;
-
-    mybegin=chrono::system_clock::now();
-    for(int64_t i=0; i<N_loop; ++i)
-        a=i<<3;
-    myend=chrono::system_clock::now();
-    sec=myend-mybegin;
-    t_sec=sec.count();
-
-    cout<<t_sec;
-    Br
+    vector<int> v(N_array);
 
     mybegin=chrono::system_clock::now();
-    for(int64_t i=0; i<N_loop; ++i)
-        a=8*i;
+    for(int i=0; i<M; ++i)
+        for(int j=0; j<M; ++j) v[M*i+j]=i+j;
     myend=chrono::system_clock::now();
-    sec=myend-mybegin;
-    t_sec=sec.count();
 
-    cout<<t_sec;
-    Br
+    compute_time
 
     mybegin=chrono::system_clock::now();
-    for(int64_t i=0; i<N_loop; ++i)
-        a=i+i+i+i+i+i+i+i;
+    for(int j=0; j<M; ++j)
+        for(int i=0; i<M; ++i) v[M*i+j]=i+j;
     myend=chrono::system_clock::now();
-    sec=myend-mybegin;
-    t_sec=sec.count();
 
-    cout<<t_sec;
-    Br
-}
+    compute_time
 
-int main(){
-    test1();
-    Br
-    test2();
+    mybegin=chrono::system_clock::now();
+    for(int i=0; i<N_array; ++i) v[i]=i;
+    myend=chrono::system_clock::now();
+
+    compute_time
 
     /*
-    286.509
-    306.855
-    804.415
-
-    789.9
-    306.279
-    808.535
+    인덱스 접근은 모두 O(1)이지만, 캐시 활용에 따라 실제 접근 시간은 달라진다
+    reference:Arithmetic 350 - row col majojr 2D array scan.cpp
     */
 }
