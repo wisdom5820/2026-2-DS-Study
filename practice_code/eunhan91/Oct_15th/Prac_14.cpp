@@ -32,4 +32,6 @@ int main(){
         *o1_it=*i1_it;
         ++i1_it;
     }
+
+    myfile.close();
 }
