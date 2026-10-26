@@ -41,7 +41,7 @@ void input() {
     }
 }
 
-void queue_recursion() {
+void queue_iter() {
     while (!Q.empty()) {
         auto [r, c, d] = Q.front();
         Q.pop();
@@ -79,6 +79,6 @@ void output() {
 
 int main() {
     input();
-    queue_recursion();
+    queue_iter();
     output();
 }
