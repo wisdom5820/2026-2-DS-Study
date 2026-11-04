@@ -1,3 +1,12 @@
+/*
+1. 사용한 AI: 6.0 Astra(High)
+2. 과제에 활용한 부분: edge case에 대한 실수를 물어 전체적으로 활용하였습니다.
+3. 어떤 도움이 필요했는지: 설계 당시에 고려하지 못했던 edge case들로 인한 예상치
+못한 동작을 다루는데 도움이 필요하였습니다.
+4. AI 제시 코드에서 추가, 개선한 부분:전체적으로 다루지 못한 상황이 무엇인지만 질문하고
+직접적으로 코드 수정에 사용하지는 않았습니다.
+*/
+
 #include <bits/stdc++.h>
 #include <ranges>
 
@@ -20,19 +29,32 @@ class T_DISK{
             type_table_[" "].push_back(memory_.begin());
         }//end of allocator
 
-        void rebuilds_free_space();//end of rebuilds_free_space()
+        void rebuilds_free_space(){
+            auto & free_space_vec=type_table_[" "];
+            type_table_[" "].clear();
 
-        void what_happen(string word){
-            cerr<<"\n>Serious Error happened ";
-            exit(1);
-        }
+            for(auto it=memory_.begin(); it != memory_.end();)
+                if(it->file_size==0) it=memory_.erase(it); //크기가 0인 " "노드 삭제 
+                else                 ++it;
+
+            for(auto it=memory_.begin(); it != memory_.end(); ++it){
+                if(it->file_name !=" ") continue;
+
+                while(next(it)!=memory_.end() && 
+                      next(it)->file_name==" ") {
+                    it->file_size+=next(it)->file_size;
+                    memory_.erase(next(it));
+                }
+
+                free_space_vec.push_back(it);
+            }//end of loop
+        }//end of rebuilds_free_space
 
         void write_file   ();
         void delete_file  ();
         void compact_file ();
         void show_file    ();
 };
-
 
 
 void T_DISK::write_file   (){
@@ -68,20 +90,15 @@ void T_DISK::write_file   (){
     }
 
     else{
-        auto free_space_vec=type_table_[" "];
-
-        for(auto pos=free_space_vec.begin(); pos!=free_space_vec.end(); ++pos){
+        for(auto it:type_table_[" "]){
             if(fsize==0) break;
 
-            auto it=*pos;
             int chunk=min(fsize, it->file_size);
 
-            it->file_name=fname;
-            it->file_size=chunk;
-
-            type_table_[fname].push_back(it);
+            type_table_[fname].push_back(memory_.insert(it,FILE_TYPE{fname, chunk}));
 
             fsize-=chunk;
+            it->file_size-=chunk;
         }//end of loop
     }
 
@@ -101,11 +118,25 @@ void T_DISK::delete_file  (){
     for(auto it:type_table_[fname])
         it->file_name=" ";
 
+    type_table_[fname].clear();
     rebuilds_free_space();
 }//end of delete_file()
 
 void T_DISK::compact_file (){
+    for(auto it:type_table_[" "])
+        memory_.splice(memory_.end(), memory_, it);
+
+    for(auto it=memory_.begin(); it!=memory_.end(); ++it)
+        while(next(it)!=memory_.end() && 
+              it->file_name == next(it)->file_name) {//end 검사를 먼저하는 것이 안전하다!
+            it->file_size+=next(it)->file_size;
+
+            type_table_[it->file_name].erase(ranges::find(type_table_[it->file_name], next(it)));
+            memory_.erase(next(it));
+        }//end of while loop
     
+
+    rebuilds_free_space();
 }//end of compact_file()
 
 void T_DISK::show_file    (){
@@ -125,7 +156,7 @@ void T_DISK::show_file    (){
             location+=it->file_size;
 
         cout<<location<<" ";
-    }
+    }//end of loop
 
     cout<<'\n';
 }//end of show_file()
@@ -158,7 +189,7 @@ int main(){
             case 2: disk.delete_file  (); break; //delete
             case 3: disk.compact_file (); break; //compact
             case 4: disk.show_file    (); break; //show
-            default: disk.what_happen (cmd); //error
+            default: exit(1); //error
         }//end of switch statement
     }//end of loop
 }//end of main()
