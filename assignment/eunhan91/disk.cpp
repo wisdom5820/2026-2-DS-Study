@@ -132,7 +132,7 @@ void T_DISK::compact_file (){
             it->file_size+=next(it)->file_size;
 
             type_table_[it->file_name].erase(ranges::find(type_table_[it->file_name], next(it)));
-            memory_.erase(next(it));
+            memory_.erase                   (next(it));
         }//end of while loop
     
 
