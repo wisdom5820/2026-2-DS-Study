@@ -35,7 +35,7 @@ int node::subordinate_count(){
         total += subordinate->subordinate_count()+1;
     
     return total;
-}
+}//end of node::subordinate_count
 
 int node::depth(){
     int current_depth=0;
@@ -46,10 +46,10 @@ int node::depth(){
 
         current_depth++;
         current_node=current_node->boss;
-    }
+    }//end of loop
 
     return current_depth;
-}
+}//end of node::depth
 
 
 void build_organization(node_map & roster){
@@ -82,7 +82,7 @@ bool compare_rank(node * lhs, node * rhs){
     if(depth_1 != depth_2) return depth_1 < depth_2;
 
     return lhs->name < rhs->name;
-}
+}//end of compare_rank
 
 vector<string> calculate_rankings(node_map& roster){
     vector<string> ranked_names;
@@ -93,12 +93,12 @@ vector<string> calculate_rankings(node_map& roster){
     ranges::sort(ranked_names, compare_rank, [&](string name) {return roster.at(name);});//[]사용 불가
 
     return ranked_names;
-}
+}//end of calculate_rankings
 
 void print_rankings(vector<string>& ranked_names){
     for(auto & name:ranked_names)
         cout<<name<<'\n';
-}
+}//end of print_rankings
 
 
 
@@ -110,4 +110,4 @@ int main(){
     auto ranked_names = calculate_rankings(mafia_roster);//compute()
     
     print_rankings(ranked_names);//output()
-}
+}//end of main
