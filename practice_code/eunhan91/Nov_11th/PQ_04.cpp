@@ -21,5 +21,9 @@ int main(){
         cout<<myPQ.top().d<<" ";
 
         myPQ.pop();
-    }
+    }//간단하게 max heap을 min heap으로 바꿈
+
+    /*
+    reference:310 — key and data
+    */
 }
