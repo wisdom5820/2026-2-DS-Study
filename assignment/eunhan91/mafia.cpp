@@ -95,10 +95,15 @@ vector<string> calculate_rankings(node_map& roster){
     return ranked_names;
 }//end of calculate_rankings
 
-void print_rankings(vector<string>& ranked_names){
+void print_and_clear(vector<string>& ranked_names, node_map & roster){
     for(auto & name:ranked_names)
         cout<<name<<'\n';
-}//end of print_rankings
+
+    for(auto &[_, member]: roster)
+        delete member;
+
+    roster.clear();
+}//end of print_and_clear
 
 
 
@@ -109,5 +114,5 @@ int main(){
 
     auto ranked_names = calculate_rankings(mafia_roster);//compute()
     
-    print_rankings(ranked_names);//output()
+    print_and_clear(ranked_names, mafia_roster);//output()
 }//end of main
