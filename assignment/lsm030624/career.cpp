@@ -9,7 +9,7 @@
     먼저 Guest라는 struct를 만들어서 3가지 입력을 받고, 이를 연산자 오버로딩을 활용하는 것의 조건을 구현하는 것에 도움을 받았습니다.
 
 4. AI 제시 코드에서 추가, 개선한 부분 :
-    간단한 if else의 경우에는 삼항연산자로 처리할 수 있게 하였습니다.
+    간단 if else의 경우에는 삼항연산자로 처리할 수 있게 하였습니다.
 */
 
 #include <bits/stdc++.h>
@@ -36,18 +36,18 @@ vector<Guest> read_guests() {
 } // end of read_guests()
 
 void run_center(const vector<Guest>& guests) {
-    priority_queue<Guest> waiting;
+    priority_queue<Guest> Center;
     int now = 30;
     int next = 0;
-    while (next < guests.size() || !waiting.empty()) {
-        if (waiting.empty())
+    while (next < guests.size() || !Center.empty()) {
+        if (Center.empty())
             now = max(now, guests[next].entered);
 
         while (next < guests.size() && guests[next].entered <= now)
-            waiting.push(guests[next++]);
+            Center.push(guests[next++]);
 
-        Guest g = waiting.top();
-        waiting.pop();
+        Guest g = Center.top();
+        Center.pop();
         int duration = g.remaining <= 10 ? g.remaining : g.remaining / 2;
         now += duration;
         g.remaining -= duration;
@@ -57,7 +57,7 @@ void run_center(const vector<Guest>& guests) {
         }
         else {
             g.entered = now;
-            waiting.push(g);
+            Center.push(g);
         }
     }
 } // end of run_center()
